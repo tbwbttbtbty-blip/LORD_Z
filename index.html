@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LordSensei - Watch Free Anime Online</title>
+    <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🥷%3C/text%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Tajawal:wght@300;400;500;700;800;900&family=Montserrat+Alternates:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+        /* ========== RESET & BASE ========== */
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Poppins','Tajawal','Montserrat Alternates',sans-serif;
+            background:#08080c; color:#eee; min-height:100vh; overflow-x:hidden;
+        }
+        a { text-decoration:none; color:inherit; }
+        ul { list-style:none; }
+        img { max-width:100%; display:block; }
+        button { cursor:pointer; font-family:inherit; }
+        ::-webkit-scrollbar { width:6px; }
+        ::-webkit-scrollbar-track { background:#111; }
+        ::-webkit-scrollbar-thumb { background:#e62429; border-radius:10px; }
+
+        [dir="rtl"] .header-right { flex-direction:row-reverse; }
+        [dir="rtl"] .hero-content { text-align:right; }
+        [dir="rtl"] .section-header { flex-direction:row-reverse; }
+        [dir="rtl"] nav ul { flex-direction:row-reverse; }
+        [dir="rtl"] .search-box i { margin-right:0; margin-left:8px; }
+        [dir="rtl"] .genre-filter { flex-direction:row-reverse; }
+        [dir="rtl"] .anime-card-body { text-align:right; }
+        [dir="rtl"] .modal-header { flex-direction:row-reverse; }
+        [dir="rtl"] .footer-content { flex-direction:row-reverse; }
+        [dir="rtl"] .footer-links { flex-direction:row-reverse; }
+
+        /* ========== HEADER ========== */
+        header {
+            position:fixed; top:0; left:0; width:100%;
+            padding:14px 4%; display:flex; justify-content:space-between;
+            align-items:center; z-index:1000;
+            background:rgba(8,8,12,0.92); backdrop-filter:blur(18px);
+            border-bottom:1px solid rgba(230,36,41,0.12); transition:0.3s;
+        }
+        header.scrolled { background:rgba(8,8,12,0.98); box-shadow:0 4px 30px rgba(230,36,41,0.08); }
+        .logo { display:flex; align-items:center; gap:10px; font-size:22px; font-weight:900; }
+        .logo-icon {
+            width:40px; height:40px;
+            background:linear-gradient(135deg,#e62429,#ff5722);
+            border-radius:10px; display:flex; align-items:center;
+            justify-content:center; font-size:18px;
+            box-shadow:0 0 20px rgba(230,36,41,0.25);
+        }
+        .logo-text { background:linear-gradient(135deg,#e62429,#ff5722); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+        .logo-sub { font-size:9px; font-weight:300; color:#888; letter-spacing:2px; -webkit-text-fill-color:#888; }
+        nav ul { display:flex; gap:24px; }
+        nav ul li a {
+            font-size:13px; font-weight:500; color:#999;
+            transition:0.3s; position:relative; padding:4px 0;
+        }
+        nav ul li a::after {
+            content:''; position:absolute; bottom:-2px; left:0;
+            width:0; height:2px; background:#e62429; transition:0.3s; border-radius:2px;
+        }
+        nav ul li a:hover, nav ul li a.active { color:#fff; }
+        nav ul li a:hover::after, nav ul li a.active::after { width:100%; }
+        .header-right { display:flex; align-items:center; gap:14px; }
+        .search-box {
+            display:flex; align-items:center;
+            background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.06);
+            border-radius:30px; padding:7px 16px; transition:0.3s; width:200px;
+        }
+        .search-box:focus-within { border-color:#e62429; background:rgba(230,36,41,0.05); }
+        .search-box input { background:transparent; border:none; outline:none; color:#fff; font-size:12px; width:100%; font-family:inherit; }
+        .search-box input::placeholder { color:#555; }
+        .search-box i { color:#666; font-size:13px; margin-right:8px; }
+        .btn {
+            padding:8px 20px; border-radius:30px; font-size:12px; font-weight:600;
+            cursor:pointer; transition:0.3s; border:none; font-family:inherit;
+            display:inline-flex; align-items:center; gap:6px;
+        }
+        .btn-outline { background:transparent; border:1.5px solid rgba(255,255,255,0.12); color:#fff; }
+        .btn-outline:hover { border-color:#e62429; color:#e62429; }
+        .btn-primary { background:linear-gradient(135deg,#e62429,#ff5722); color:#fff; box-shadow:0 4px 15px rgba(230,36,41,0.2); }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 25px rgba(230,36,41,0.3); }
+        .btn-danger { background:#e62429; color:#fff; }
+        .btn-danger:hover { background:#c41e22; }
+        .lang-select {
+            background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06);
+            color:#aaa; padding:6px 10px; border-radius:8px; font-size:12px;
+            font-family:inherit; cursor:pointer; transition:0.3s;
+        }
+        .lang-select:hover { border-color:#e62429; color:#fff; }
+        .lang-select:focus { outline:none; border-color:#e62429; }
+        .auth-btns { display:flex; gap:8px; }
+        .menu-toggle { display:none; font-size:22px; cursor:pointer; color:#fff; }
+        .user-menu { display:none; align-items:center; gap:10px; }
+        .user-menu.show { display:flex; }
+        .user-avatar { width:34px; height:34px; border-radius:50%; background:linear-gradient(135deg,#e62429,#ff5722); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; color:#fff; }
+        .user-name { font-size:12px; font-weight:500; max-width:80px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+        /* ========== HERO ========== */
+        .hero { min-height:95vh; display:flex; align-items:center; padding:110px 4% 50px; background:linear-gradient(135deg,#08080c 0%,#140a0d 50%,#08080c 100%); position:relative; overflow:hidden; }
+        .hero::before { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(circle at 30% 50%,rgba(230,36,41,0.03) 0%,transparent 50%), radial-gradient(circle at 70% 50%,rgba(255,87,34,0.02) 0%,transparent 50%); animation:heroGlow 10s ease-in-out infinite alternate; }
+        @keyframes heroGlow { 0%{transform:translate(0,0) rotate(0deg)} 100%{transform:translate(2%,2%) rotate(2deg)} }
+        .hero-content { flex:1; position:relative; z-index:2; max-width:600px; }
+        .hero-badge { display:inline-flex; align-items:center; gap:6px; background:rgba(230,36,41,0.1); border:1px solid rgba(230,36,41,0.15); padding:5px 14px; border-radius:30px; font-size:11px; color:#e62429; font-weight:500; margin-bottom:20px; }
+        .hero h1 { font-size:46px; font-weight:900; line-height:1.15; margin-bottom:14px; }
+        .hero h1 span { background:linear-gradient(135deg,#e62429,#ff5722); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+        .hero p { font-size:15px; color:#999; line-height:1.7; margin-bottom:28px; max-width:480px; }
+        .hero-stats { display:flex; gap:36px; margin-bottom:30px; }
+        .hero-stat h3 { font-size:26px; font-weight:800; color:#fff; }
+        .hero-stat p { font-size:11px; color:#666; margin-bottom:0; text-transform:uppercase; letter-spacing:1px; }
+        .hero-btns { display:flex; gap:14px; }
+        .hero-btns .btn { padding:12px 28px; font-size:14px; }
+        .hero-visual { flex:1; position:relative; z-index:2; display:flex; justify-content:center; align-items:center; }
+        .hero-card-wrap { position:relative; width:300px; height:420px; }
+        .hero-card { width:100%; height:100%; background:linear-gradient(145deg,#16161e,#0c0c10); border-radius:18px; border:1px solid rgba(255,255,255,0.04); overflow:hidden; position:relative; box-shadow:0 20px 80px rgba(230,36,41,0.08); animation:floatCard 5s ease-in-out infinite; }
+        @keyframes floatCard { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+        .hero-card-img { width:100%; height:100%; object-fit:cover; }
+        .hero-card-overlay { position:absolute; bottom:0; left:0; right:0; padding:24px; background:linear-gradient(transparent,rgba(8,8,12,0.95)); }
+        .hero-card-overlay h3 { font-size:18px; font-weight:700; margin-bottom:2px; }
+        .hero-card-overlay p { font-size:12px; color:#aaa; }
+        .hero-card-badge { position:absolute; top:14px; right:14px; background:#e62429; padding:5px 12px; border-radius:6px; font-size:11px; font-weight:700; }
+
+        /* ========== SECTION ========== */
+        section { padding:60px 4%; }
+        .section-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:28px; }
+        .section-header h2 { font-size:24px; font-weight:800; }
+        .section-header h2 span { color:#e62429; }
+        .section-cta { font-size:12px; color:#e62429; font-weight:500; display:flex; align-items:center; gap:4px; cursor:pointer; transition:0.3s; }
+        .section-cta:hover { gap:8px; }
+
+        /* ========== LOADING ========== */
+        .loading-spinner { display:flex; justify-content:center; align-items:center; padding:60px; flex-direction:column; gap:16px; }
+        .spinner { width:48px; height:48px; border:4px solid rgba(230,36,41,0.1); border-top:4px solid #e62429; border-radius:50%; animation:spin 0.8s linear infinite; }
+        @keyframes spin { to{transform:rotate(360deg)} }
+        .loading-spinner p { color:#888; font-size:13px; }
+
+        /* ========== GENRE FILTER ========== */
+        .genre-filter { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:28px; }
+        .genre-btn { padding:7px 20px; border-radius:30px; font-size:12px; font-weight:500; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); color:#999; cursor:pointer; transition:0.3s; font-family:inherit; }
+        .genre-btn:hover { border-color:rgba(230,36,41,0.3); color:#fff; }
+        .genre-btn.active { background:linear-gradient(135deg,#e62429,#ff5722); border-color:transparent; color:#fff; box-shadow:0 4px 15px rgba(230,36,41,0.15); }
+
+        /* ========== ANIME GRID ========== */
+        .anime-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(180px,1fr)); gap:20px; }
+        .anime-card { background:#111116; border-radius:14px; overflow:hidden; transition:0.4s; cursor:pointer; border:1px solid rgba(255,255,255,0.03); position:relative; }
+        .anime-card:hover { transform:translateY(-6px); border-color:rgba(230,36,41,0.15); box-shadow:0 12px 30px rgba(230,36,41,0.06); }
+        .anime-card-img { width:100%; aspect-ratio:3/4; object-fit:cover; background:#1a1a22; transition:0.4s; }
+        .anime-card:hover .anime-card-img { transform:scale(1.03); }
+        .anime-card-body { padding:12px 12px 16px; }
+        .anime-card-body h3 { font-size:14px; font-weight:600; margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .anime-card-meta { display:flex; justify-content:space-between; align-items:center; font-size:11px; color:#777; }
+        .anime-card-meta .rating { color:#f5c518; font-weight:600; }
+        .anime-card-meta .eps { color:#e62429; font-weight:500; }
+        .anime-card-tag { position:absolute; top:8px; left:8px; padding:3px 10px; border-radius:5px; font-size:10px; font-weight:600; text-transform:uppercase; }
+        .tag-action { background:#e62429; color:#fff; }
+        .tag-romance { background:#ff6b9d; color:#fff; }
+        .anime-card-play { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) scale(0); width:50px; height:50px; background:rgba(230,36,41,0.85); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:20px; color:#fff; transition:0.4s; backdrop-filter:blur(4px); }
+        .anime-card:hover .anime-card-play { transform:translate(-50%,-50%) scale(1); }
+
+        /* ========== PAGINATION ========== */
+        .pagination { display:flex; justify-content:center; gap:8px; margin-top:40px; flex-wrap:wrap; }
+        .page-btn { padding:8px 16px; border-radius:8px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); color:#aaa; font-size:13px; cursor:pointer; transition:0.3s; font-family:inherit; }
+        .page-btn:hover { border-color:#e62429; color:#fff; }
+        .page-btn.active { background:#e62429; border-color:#e62429; color:#fff; }
+        .page-btn:disabled { opacity:0.3; cursor:not-allowed; }
+
+        /* ========== FEATURES ========== */
+        .features { background:linear-gradient(180deg,#08080c,#0d0d12); padding:70px 4%; }
+        .features-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:24px; }
+        .feature-card { background:#111116; padding:28px 20px; border-radius:14px; border:1px solid rgba(255,255,255,0.03); text-align:center; transition:0.4s; }
+        .feature-card:hover { border-color:rgba(230,36,41,0.12); transform:translateY(-4px); }
+        .feature-card i { font-size:32px; color:#e62429; margin-bottom:14px; }
+        .feature-card h3 { font-size:16px; font-weight:600; margin-bottom:6px; }
+        .feature-card p { font-size:12px; color:#888; line-height:1.6; }
+
+        /* ========== FOOTER ========== */
+        footer { background:#06060a; border-top:1px solid rgba(255,255,255,0.03); padding:36px 4% 20px; }
+        .footer-content { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+        .footer-logo { font-size:18px; font-weight:800; }
+        .footer-logo span { color:#e62429; }
+        .footer-links { display:flex; gap:20px; font-size:12px; color:#888; }
+        .footer-links a:hover { color:#fff; }
+        .footer-bottom { text-align:center; margin-top:20px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.03); font-size:11px; color:#444; }
+
+        /* ========== MODAL ========== */
+        .modal-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.88); backdrop-filter:blur(10px); z-index:2000; display:none; justify-content:center; align-items:center; padding:30px; }
+        .modal-overlay.show { display:flex; }
+        .modal-content { background:#111116; border-radius:18px; width:100%; max-width:780px; max-height:90vh; overflow-y:auto; border:1px solid rgba(255,255,255,0.04); animation:slideUp 0.35s ease; }
+        @keyframes slideUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+        .modal-header { padding:18px 22px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.04); }
+        .modal-header h2 { font-size:18px; font-weight:700; }
+        .modal-close { width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.04); border:none; color:#fff; font-size:16px; cursor:pointer; transition:0.3s; display:flex; align-items:center; justify-content:center; }
+        .modal-close:hover { background:#e62429; }
+        .modal-body { padding:20px; }
+        .video-player-wrap { width:100%; aspect-ratio:16/9; background:#000; border-radius:10px; overflow:hidden; margin-bottom:18px; position:relative; }
+        .video-player-wrap iframe { width:100%; height:100%; border:none; }
+        .video-placeholder { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; background:linear-gradient(135deg,#1a1a22,#0c0c10); }
+        .video-placeholder i { font-size:48px; color:#e62429; margin-bottom:12px; }
+        .video-placeholder p { color:#888; font-size:13px; }
+        .anime-info-detail h3 { font-size:20px; font-weight:700; margin-bottom:6px; }
+        .anime-info-detail .meta-row { display:flex; gap:14px; font-size:12px; color:#888; margin-bottom:10px; flex-wrap:wrap; }
+        .anime-info-detail .meta-row span { display:flex; align-items:center; gap:4px; }
+        .anime-info-detail .meta-row i { color:#e62429; }
+        .anime-info-detail .desc { font-size:13px; color:#aaa; line-height:1.7; margin-bottom:14px; }
+        .episode-list { display:flex; flex-wrap:wrap; gap:8px; max-height:200px; overflow-y:auto; padding:4px 0; }
+        .episode-btn { padding:6px 14px; border-radius:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); color:#ccc; font-size:12px; cursor:pointer; transition:0.3s; font-family:inherit; }
+        .episode-btn:hover, .episode-btn.active { background:#e62429; border-color:#e62429; color:#fff; }
+
+        /* ========== AUTH MODAL ========== */
+        .auth-modal .modal-content { max-width:400px; }
+        .auth-form { padding:8px 0; }
+        .form-group { margin-bottom:16px; }
+        .form-group label { display:block; font-size:12px; font-weight:500; color:#aaa; margin-bottom:5px; }
+        .form-group input { width:100%; padding:11px 14px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06); border-radius:10px; color:#fff; font-size:13px; outline:none; transition:0.3s; font-family:inherit; }
+        .form-group input:focus { border-color:#e62429; background:rgba(230,36,41,0.03); }
+        .form-group input::placeholder { color:#444; }
+        .auth-form .btn { width:100%; padding:12px; font-size:14px; margin-top:4px; }
+        .auth-switch { text-align:center; margin-top:16px; font-size:12px; color:#888; }
+        .auth-switch a { color:#e62429; font-weight:600; cursor:pointer; }
+        .auth-switch a:hover { text-decoration:underline; }
+        .form-error { color:#e62429; font-size:11px; margin-top:3px; display:none; }
+        .auth-success { color:#22c55e; font-size:12px; text-align:center; margin-top:8px; display:none; }
+
+        /* ========== TOAST ========== */
+        .toast { position:fixed; bottom:30px; right:30px; z-index:9999; padding:14px 24px; border-radius:12px; font-size:13px; font-weight:500; display:none; align-items:center; gap:10px; animation:slideIn 0.3s ease; backdrop-filter:blur(10px); }
+        .toast.success { background:rgba(34,197,94,0.9); color:#fff; }
+        .toast.error { background:rgba(230,36,41,0.9); color:#fff; }
+        .toast.info { background:rgba(59,130,246,0.9); color:#fff; }
+        @keyframes slideIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width:992px) {
+            .hero { flex-direction:column; text-align:center; padding-top:90px; }
+            .hero-content { max-width:100%; }
+            .hero p { margin:0 auto 24px; }
+            .hero-stats { justify-content:center; }
+            .hero-btns { justify-content:center; }
+            .hero-visual { margin-top:36px; }
+            .hero-card-wrap { width:240px; height:340px; }
+            .hero h1 { font-size:34px; }
+        }
+        @media (max-width:768px) {
+            header { padding:12px 4%; }
+            .menu-toggle { display:block; }
+            nav { position:fixed; top:66px; left:0; width:100%; background:rgba(8,8,12,0.98); backdrop-filter:blur(20px); padding:18px 4%; border-bottom:1px solid rgba(255,255,255,0.04); transform:translateY(-120%); transition:0.4s; z-index:999; }
+            nav.open { transform:translateY(0); }
+            nav ul { flex-direction:column; gap:14px; }
+            .search-box { width:140px; }
+            .auth-btns .btn { padding:6px 14px; font-size:11px; }
+            .hero h1 { font-size:28px; }
+            section { padding:40px 4%; }
+            .section-header h2 { font-size:20px; }
+            .anime-grid { grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); gap:14px; }
+            .features-grid { grid-template-columns:1fr 1fr; }
+            .modal-overlay { padding:12px; }
+        }
+        @media (max-width:480px) {
+            .hero h1 { font-size:24px; }
+            .hero-stats { flex-direction:column; gap:10px; }
+            .hero-btns { flex-direction:column; align-items:center; }
+            .anime-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
+            .anime-card-body h3 { font-size:12px; }
+            .features-grid { grid-template-columns:1fr; }
+            .header-right .auth-btns .btn-outline { display:none; }
+            .search-box { width:100px; }
+            .lang-select { font-size:10px; padding:4px 6px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- =============== HEADER =============== -->
+    <header id="header">
+        <div class="logo">
+            <div class="logo-icon">🥷</div>
+            <div>
+                <div class="logo-text">LordSensei</div>
+                <div class="logo-sub" data-i18n="header.subtitle">WATCH FREE ANIME</div>
+            </div>
+        </div>
+        <nav id="nav">
+            <ul>
+                <li><a href="#home" class="active" data-i18n="nav.home">Home</a></li>
+                <li><a href="#anime" data-i18n="nav.anime">Anime</a></li>
+                <li><a href="#action" data-i18n="nav.action">Action</a></li>
+                <li><a href="#romance" data-i18n="nav.romance">Romance</a></li>
+                <li><a href="#features" data-i18n="nav.features">Features</a></li>
+            </ul>
+        </nav>
+        <div class="header-right">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" data-i18n-placeholder="header.search" placeholder="Search anime..." />
+            </div>
+            <select class="lang-select" id="langSelect" onchange="switchLang(this.value)">
+                <option value="en">🇬🇧 EN</option>
+                <option value="ar">🇸🇦 AR</option>
+                <option value="ru">🇷🇺 RU</option>
+            </select>
+            <div class="auth-btns" id="authBtns">
+                <button class="btn btn-outline" onclick="openAuth('login')" data-i18n="auth.signin">Sign In</button>
+                <button class="btn btn-primary" onclick="openAuth('register')" data-i18n="auth.signup">Sign Up</button>
+            </div>
+            <div class="user-menu" id="userMenu">
+                <div class="user-avatar" id="userAvatar">L</div>
+                <span class="user-name" id="userName">User</span>
+                <button class="btn btn-danger" onclick="logout()" style="padding:5px 12px;font-size:11px;" data-i18n="auth.logout">Logout</button>
+            </div>
+            <div class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+        </div>
+    </header>
+
+    <!-- =============== HERO =============== -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-badge"><i class="fas fa-bolt"></i> <span data-i18n="hero.badge">Free · No Ads · HD</span></div>
+            <h1><span data-i18n="hero.title1">Watch</span> <span data-i18n="hero.title2">Anime</span><br><span data-i18n="hero.title3">For Free, On LordSensei</span></h1>
+            <p data-i18n="hero.desc">Stream thousands of action & romance anime episodes in HD quality. No subscriptions, no hidden fees — just pure anime.</p>
+            <div class="hero-stats">
+                <div class="hero-stat"><h3 id="statAnime">500+</h3><p data-i18n="hero.stat1">Anime Series</p></div>
+                <div class="hero-stat"><h3 id="statEpisodes">10K+</h3><p data-i18n="hero.stat2">Episodes</p></div>
+                <div class="hero-stat"><h3 id="statUsers">50K+</h3><p data-i18n="hero.stat3">Active Users</p></div>
+            </div>
+            <div class="hero-btns">
+                <button class="btn btn-primary" onclick="scrollToSection('anime')"><i class="fas fa-play"></i> <span data-i18n="hero.cta1">Start Watching</span></button>
+                <button class="btn btn-outline" onclick="scrollToSection('features')" data-i18n="hero.cta2">Learn More</button>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="hero-card-wrap">
+                <div class="hero-card">
+                    <img src="https://cdn.myanimelist.net/images/anime/1015/138327.jpg" alt="Solo Leveling" class="hero-card-img" onerror="this.style.display='none'" loading="lazy" />
+                    <div class="hero-card-overlay"><h3>Solo Leveling</h3><p data-i18n="hero.genre">Action · Fantasy</p></div>
+                    <div class="hero-card-badge" data-i18n="hero.trending">🔥 Trending</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =============== ANIME SECTION =============== -->
+    <section id="anime">
+        <div class="section-header">
+            <h2 data-i18n="anime.title">Explore <span>Anime</span></h2>
+            <span class="section-cta" onclick="scrollToSection('features')" data-i18n="anime.viewall">View All <i class="fas fa-arrow-right"></i></span>
+        </div>
+        <div class="genre-filter" id="genreFilter">
+            <button class="genre-btn active" data-genre="all" data-i18n="filter.all">All</button>
+            <button class="genre-btn" data-genre="1" data-i18n="filter.action">Action</button>
+            <button class="genre-btn" data-genre="22" data-i18n="filter.romance">Romance</button>
+        </div>
+        <div id="animeGridContainer">
+            <div class="loading-spinner" id="loadingIndicator">
+                <div class="spinner"></div>
+                <p data-i18n="loading.loading">Loading anime...</p>
+            </div>
+            <div class="anime-grid" id="animeGrid"></div>
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </section>
+
+    <!-- =============== FEATURES =============== -->
+    <section class="features" id="features">
+        <div class="section-header"><h2 data-i18n="features.title">Why <span>LordSensei</span>?</h2></div>
+        <div class="features-grid">
+            <div class="feature-card"><i class="fas fa-infinity"></i><h3 data-i18n="features.f1_title">Unlimited Streaming</h3><p data-i18n="features.f1_desc">Watch as many episodes as you want, anytime, anywhere — completely free.</p></div>
+            <div class="feature-card"><i class="fas fa-bolt"></i><h3 data-i18n="features.f2_title">HD Quality</h3><p data-i18n="features.f2_desc">All episodes available in HD with fast streaming servers worldwide.</p></div>
+            <div class="feature-card"><i class="fas fa-shield-halved"></i><h3 data-i18n="features.f3_title">Free Forever</h3><p data-i18n="features.f3_desc">No subscriptions, no payments. Premium features included for all users.</p></div>
+            <div class="feature-card"><i class="fas fa-heart"></i><h3 data-i18n="features.f4_title">Real Content</h3><p data-i18n="features.f4_desc">Real anime from MyAnimeList database with authentic streaming sources.</p></div>
+        </div>
+    </section>
+
+    <!-- =============== FOOTER =============== -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">🥷 <span>Lord</span>Sensei</div>
+            <div class="footer-links">
+                <a href="#" data-i18n="footer.about">About</a>
+                <a href="#" data-i18n="footer.contact">Contact</a>
+                <a href="#" data-i18n="footer.dmca">DMCA</a>
+                <a href="#" data-i18n="footer.terms">Terms</a>
+                <a href="#" data-i18n="footer.privacy">Privacy</a>
+            </div>
+        </div>
+        <div class="footer-bottom">&copy; 2026 LordSensei. <span data-i18n="footer.rights">All rights reserved. Fan-made platform.</span></div>
+    </footer>
+
+    <!-- =============== VIDEO MODAL =============== -->
+    <div class="modal-overlay" id="videoModal">
+        <div class="modal-content">
+            <div class="modal-header"><h2 id="modalTitle"><span data-i18n="player.nowplaying">Now Playing</span></h2><button class="modal-close" onclick="closeModal('videoModal')"><i class="fas fa-times"></i></button></div>
+            <div class="modal-body">
+                <div class="video-player-wrap" id="videoContainer">
+                    <div class="video-placeholder" id="videoPlaceholder"><i class="fas fa-play-circle"></i><p data-i18n="player.clickepisode">Click an episode to start streaming</p></div>
+                    <iframe id="videoIframe" style="display:none;" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+                </div>
+                <div class="anime-info-detail">
+                    <h3 id="animeInfoTitle">Title</h3>
+                    <div class="meta-row" id="animeMeta"></div>
+                    <p class="desc" id="animeDesc">Description</p>
+                    <h4 style="font-size:13px;font-weight:600;margin-bottom:8px;color:#ccc;"><i class="fas fa-list"></i> <span data-i18n="player.episodes">Episodes</span></h4>
+                    <div class="episode-list" id="episodeList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =============== AUTH MODAL =============== -->
+    <div class="modal-overlay auth-modal" id="authModal">
+        <div class="modal-content">
+            <div class="modal-header"><h2 id="authTitle" data-i18n="auth.signin_title">Sign In</h2><button class="modal-close" onclick="closeModal('authModal')"><i class="fas fa-times"></i></button></div>
+            <div class="modal-body">
+                <div class="auth-form" id="authForm">
+                    <div class="form-group" id="nameGroup" style="display:none;">
+                        <label data-i18n="auth.name_label">Full Name</label>
+                        <input type="text" id="regName" data-i18n-placeholder="auth.name_placeholder" placeholder="Enter your name" />
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="auth.email_label">Email Address</label>
+                        <input type="email" id="authEmail" placeholder="you@example.com" />
+                        <div class="form-error" id="emailError" data-i18n="auth.email_error">Invalid email</div>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="auth.pass_label">Password</label>
+                        <input type="password" id="authPassword" placeholder="••••••••" />
+                        <div class="form-error" id="passError" data-i18n="auth.pass_error">Minimum 6 characters</div>
+                    </div>
+                    <div class="auth-success" id="authSuccess" data-i18n="auth.success_msg">✓ Success! You can now watch anime.</div>
+                    <button class="btn btn-primary" id="authSubmitBtn" onclick="handleAuth()"><span data-i18n="auth.signin">Sign In</span></button>
+                    <div class="auth-switch">
+                        <span id="authSwitchText" data-i18n="auth.switch_login">Don't have an account?</span>
+                        <a id="authSwitchLink" onclick="toggleAuthMode()" data-i18n="auth.switch_signup">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =============== TOAST =============== -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ========================================================
+        // TRANSLATIONS — EN / AR / RU
+        // ========================================================
+        const translations = {
+            en: {
+                'header.subtitle':'WATCH FREE ANIME',
+                'nav.home':'Home','nav.anime':'Anime','nav.action':'Action','nav.romance':'Romance','nav.features':'Features',
+                'header.search':'Search anime...',
+                'auth.signin':'Sign In','auth.signup':'Sign Up','auth.logout':'Logout',
+                'auth.signin_title':'Sign In','auth.signup_title':'Create Account',
+                'auth.name_label':'Full Name','auth.name_placeholder':'Enter your name',
+                'auth.email_label':'Email Address','auth.email_placeholder':'you@example.com','auth.email_error':'Invalid email',
+                'auth.pass_label':'Password','auth.pass_placeholder':'••••••••','auth.pass_error':'Minimum 6 characters',
+                'auth.success_msg':'✓ Success! You can now watch anime.',
+                'auth.switch_login':"Don't have an account?",'auth.switch_signup':'Sign Up',
+                'auth.switch_signup_login':'Already have an account?','auth.switch_login_text':'Sign In',
+                'hero.badge':'Free · No Ads · HD','hero.title1':'Watch','hero.title2':'Anime','hero.title3':'For Free, On LordSensei',
+                'hero.desc':'Stream thousands of action & romance anime episodes in HD quality. No subscriptions, no hidden fees — just pure anime.',
+                'hero.stat1':'Anime Series','hero.stat2':'Episodes','hero.stat3':'Active Users',
+                'hero.cta1':'Start Watching','hero.cta2':'Learn More','hero.genre':'Action · Fantasy','hero.trending':'🔥 Trending',
+                'anime.title':'Explore <span>Anime</span>','anime.viewall':'View All <i class="fas fa-arrow-right"></i>',
+                'filter.all':'All','filter.action':'Action','filter.romance':'Romance',
+                'loading.loading':'Loading anime...','loading.more':'Loading more...',
+                'features.title':'Why <span>LordSensei</span>?',
+                'features.f1_title':'Unlimited Streaming','features.f1_desc':'Watch as many episodes as you want, anytime, anywhere — completely free.',
+                'features.f2_title':'HD Quality','features.f2_desc':'All episodes available in HD with fast streaming servers worldwide.',
+                'features.f3_title':'Free Forever','features.f3_desc':'No subscriptions, no payments. Premium features included for all users.',
+                'features.f4_title':'Real Content','features.f4_desc':'Real anime from MyAnimeList database with authentic streaming sources.',
+                'footer.about':'About','footer.contact':'Contact','footer.dmca':'DMCA','footer.terms':'Terms','footer.privacy':'Privacy',
+                'footer.rights':'All rights reserved. Fan-made platform.',
+                'player.nowplaying':'Now Playing','player.clickepisode':'Click an episode to start streaming','player.episodes':'Episodes',
+                'player.select':'Select Episode','player.episode':'Episode','player.loaderror':'Could not load video',
+                'toast.login_success':'Welcome back! You are now signed in.',
+                'toast.register_success':'Account created! Welcome to LordSensei.',
+                'toast.logout':'You have been logged out.',
+                'toast.login_required':'Please sign in to save your favorites.',
+                'no.episodes':'No episodes available'
+            },
+            ar: {
+                'header.subtitle':'شاهد الأنمي مجاناً',
+                'nav.home':'الرئيسية','nav.anime':'الأنمي','nav.action':'أكشن','nav.romance':'رومانسية','nav.features':'المميزات',
+                'header.search':'ابحث عن أنمي...',
+                'auth.signin':'تسجيل دخول','auth.signup':'إنشاء حساب','auth.logout':'تسجيل خروج',
+                'auth.signin_title':'تسجيل دخول','auth.signup_title':'إنشاء حساب جديد',
+                'auth.name_label':'الاسم الكامل','auth.name_placeholder':'أدخل اسمك',
+                'auth.email_label':'البريد الإلكتروني','auth.email_placeholder':'br@example.com','auth.email_error':'البريد الإلكتروني غير صحيح',
+                'auth.pass_label':'كلمة المرور','auth.pass_placeholder':'••••••••','auth.pass_error':'كلمة المرور يجب أن تكون 6 أحرف على الأقل',
+                'auth.success_msg':'✓ تم بنجاح! يمكنك الآن مشاهدة الأنمي.',
+                'auth.switch_login':'ليس لديك حساب؟','auth.switch_signup':'إنشاء حساب',
+                'auth.switch_signup_login':'لديك حساب بالفعل؟','auth.switch_login_text':'تسجيل دخول',
+                'hero.badge':'مجاني · بدون إعلانات · جودة عالية','hero.title1':'شاهد','hero.title2':'الأنمي','hero.title3':'مجاناً، على لورد سينسي',
+                'hero.desc':'شاهد آلاف الحلقات من أنمي الأكشن والرومانسية بجودة عالية. بدون اشتراكات ولا رسوم خفية — أنمي نقي فقط.',
+                'hero.stat1':'مسلسل أنمي','hero.stat2':'حلقة','hero.stat3':'مستخدم نشط',
+                'hero.cta1':'ابدأ المشاهدة','hero.cta2':'اعرف المزيد','hero.genre':'أكشن · فنتازيا','hero.trending':'🔥 رائج',
+                'anime.title':'استكشف <span>الأنمي</span>','anime.viewall':'عرض الكل <i class="fas fa-arrow-right"></i>',
+                'filter.all':'الكل','filter.action':'أكشن','filter.romance':'رومانسية',
+                'loading.loading':'جاري تحميل الأنمي...','loading.more':'جاري تحميل المزيد...',
+                'features.title':'لماذا <span>لورد سينسي</span>؟',
+                'features.f1_title':'مشاهدة غير محدودة','features.f1_desc':'شاهد عدد غير محدود من الحلقات في أي وقت وأي مكان — مجاناً تماماً.',
+                'features.f2_title':'جودة عالية','features.f2_desc':'جميع الحلقات متوفرة بجودة عالية مع خوادم بث سريعة حول العالم.',
+                'features.f3_title':'مجاني للأبد','features.f3_desc':'لا اشتراكات ولا مدفوعات. جميع المميزات متاحة لجميع المستخدمين.',
+                'features.f4_title':'محتوى حقيقي','features.f4_desc':'أنمي حقيقي من قاعدة بيانات MyAnimeList مع مصادر بث أصلية.',
+                'footer.about':'عن الموقع','footer.contact':'اتصل بنا','footer.dmca':'DMCA','footer.terms':'الشروط','footer.privacy':'الخصوصية',
+                'footer.rights':'جميع الحقوق محفوظة. منصة من صنع المعجبين.',
+                'player.nowplaying':'قيد التشغيل','player.clickepisode':'اضغط على حلقة لبدء المشاهدة','player.episodes':'الحلقات',
+                'player.select':'اختر حلقة','player.episode':'حلقة','player.loaderror':'تعذر تحميل الفيديو',
+                'toast.login_success':'مرحباً بعودتك! تم تسجيل الدخول بنجاح.',
+                'toast.register_success':'تم إنشاء الحساب! مرحباً بك في لورد سينسي.',
+                'toast.logout':'تم تسجيل الخروج.',
+                'toast.login_required':'يرجى تسجيل الدخول لحفظ المفضلة.',
+                'no.episodes':'لا توجد حلقات متاحة'
+            },
+            ru: {
+                'header.subtitle':'СМОТРИТЕ АНИМЕ БЕСПЛАТНО',
+                'nav.home':'Главная','nav.anime':'Аниме','nav.action':'Экшн','nav.romance':'Романтика','nav.features':'Возможности',
+                'header.search':'Поиск аниме...',
+                'auth.signin':'Войти','auth.signup':'Регистрация','auth.logout':'Выйти',
+                'auth.signin_title':'Вход','auth.signup_title':'Создать аккаунт',
+                'auth.name_label':'Полное имя','auth.name_placeholder':'Введите ваше имя',
+                'auth.email_label':'Email','auth.email_placeholder':'you@example.com','auth.email_error':'Неверный email',
+                'auth.pass_label':'Пароль','auth.pass_placeholder':'••••••••','auth.pass_error':'Минимум 6 символов',
+                'auth.success_msg':'✓ Успешно! Теперь вы можете смотреть аниме.',
+                'auth.switch_login':'Нет аккаунта?','auth.switch_signup':'Регистрация',
+                'auth.switch_signup_login':'Уже есть аккаунт?','auth.switch_login_text':'Войти',
+                'hero.badge':'Бесплатно · Без рекламы · HD','hero.title1':'Смотри','hero.title2':'Аниме','hero.title3':'Бесплатно на LordSensei',
+                'hero.desc':'Тысячи серий экшн и романтики в HD. Без подписок, без скрытых платежей — просто аниме.',
+                'hero.stat1':'Серий аниме','hero.stat2':'Эпизодов','hero.stat3':'Активных пользователей',
+                'hero.cta1':'Начать просмотр','hero.cta2':'Узнать больше','hero.genre':'Экшн · Фэнтези','hero.trending':'🔥 В тренде',
+                'anime.title':'Исследуйте <span>Аниме</span>','anime.viewall':'Смотреть всё <i class="fas fa-arrow-right"></i>',
+                'filter.all':'Все','filter.action':'Экшн','filter.romance':'Романтика',
+                'loading.loading':'Загрузка аниме...','loading.more':'Загрузка...',
+                'features.title':'Почему <span>LordSensei</span>?',
+                'features.f1_title':'Безлимитный стриминг','features.f1_desc':'Смотрите сколько угодно серий в любое время — абсолютно бесплатно.',
+                'features.f2_title':'HD качество','features.f2_desc':'Все серии в HD на быстрых серверах по всему миру.',
+                'features.f3_title':'Навсегда бесплатно','features.f3_desc':'Никаких подписок. Все премиум-функции доступны каждому.',
+                'features.f4_title':'Настоящий контент','features.f4_desc':'Реальное аниме из MyAnimeList с оригинальными источниками.',
+                'footer.about':'О нас','footer.contact':'Контакты','footer.dmca':'DMCA','footer.terms':'Условия','footer.privacy':'Конфиденциальность',
+                'footer.rights':'Все права защищены. Фан-платформа.',
+                'player.nowplaying':'Сейчас играет','player.clickepisode':'Выберите эпизод для просмотра','player.episodes':'Эпизоды',
+                'player.select':'Выбрать эпизод','player.episode':'Эпизод','player.loaderror':'Не удалось загрузить видео',
+                'toast.login_success':'С возвращением! Вы вошли.',
+                'toast.register_success':'Аккаунт создан! Добро пожаловать на LordSensei.',
+                'toast.logout':'Вы вышли из системы.',
+                'toast.login_required':'Пожалуйста, войдите, чтобы сохранять избранное.',
+                'no.episodes':'Нет доступных эпизодов'
+            }
+        };
+
+        // ========================================================
+        // STATE
+        // ========================================================
+        let currentLang = 'en';
+        let animes = [];
+        let currentPage = 1;
+        let itemsPerPage = 20;
+        let currentGenre = 'all';
+        let currentAnime = null;
+        let isLoginMode = true;
+        let currentUser = JSON.parse(localStorage.getItem('lsUser') || 'null');
+
+        // ========================================================
+        // UTILITY
+        // ========================================================
+        function t(key) {
+            return translations[currentLang]?.[key] || translations['en'][key] || key;
+        }
+
+        function applyTranslations() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                el.innerHTML = t(key);
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.dataset.i18nPlaceholder;
+                el.placeholder = t(key);
+            });
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            document.querySelector('#langSelect').value = currentLang;
+        }
+
+        function switchLang(lang) {
+            currentLang = lang;
+            localStorage.setItem('lsLang', lang);
+            applyTranslations();
+        }
+
+        function toggleMenu() {
+            document.getElementById('nav').classList.toggle('open');
+        }
+
+        function scrollToSection(id) {
+            document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showToast(msg, type = 'info') {
+            const el = document.getElementById('toast');
+            el.textContent = msg;
+            el.className = 'toast ' + type;
+            el.style.display = 'flex';
+            setTimeout(() => { el.style.display = 'none'; }, 3000);
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('show');
+            if (id === 'videoModal') {
+                const iframe = document.getElementById('videoIframe');
+                iframe.style.display = 'none';
+                iframe.src = '';
+                document.getElementById('videoPlaceholder').style.display = 'flex';
+            }
+        }
+
+        function openModal(id) {
+            document.getElementById(id).classList.add('show');
+        }
+
+        // Click outside modal to close
+        document.querySelectorAll('.modal-overlay').forEach(el => {
+            el.addEventListener('click', (e) => {
+                if (e.target === el) {
+                    const id = el.id;
+                    closeModal(id);
+                }
+            });
+        });
+
+        // ========================================================
+        // AUTH
+        // ========================================================
+        function openAuth(mode) {
+            isLoginMode = mode === 'login';
+            document.getElementById('authTitle').textContent = isLoginMode ? t('auth.signin_title') : t('auth.signup_title');
+            document.getElementById('nameGroup').style.display = isLoginMode ? 'none' : 'block';
+            document.getElementById('authSubmitBtn').querySelector('span').textContent = isLoginMode ? t('auth.signin') : t('auth.signup');
+            document.getElementById('authSwitchText').textContent = isLoginMode ? t('auth.switch_login') : t('auth.switch_signup_login');
+            document.getElementById('authSwitchLink').textContent = isLoginMode ? t('auth.switch_signup') : t('auth.switch_login_text');
+            document.getElementById('authSuccess').style.display = 'none';
+            document.getElementById('emailError').style.display = 'none';
+            document.getElementById('passError').style.display = 'none';
+            openModal('authModal');
+        }
+
+        function toggleAuthMode() {
+            openAuth(isLoginMode ? 'register' : 'login');
+        }
+
+        function handleAuth() {
+            const email = document.getElementById('authEmail').value.trim();
+            const pass = document.getElementById('authPassword').value.trim();
+            const name = document.getElementById('regName').value.trim() || 'User';
+            const emailError = document.getElementById('emailError');
+            const passError = document.getElementById('passError');
+            const authSuccess = document.getElementById('authSuccess');
+
+            emailError.style.display = 'none';
+            passError.style.display = 'none';
+            authSuccess.style.display = 'none';
+
+            let valid = true;
+            if (!email || !email.includes('@')) {
+                emailError.style.display = 'block';
+                valid = false;
+            }
+            if (!pass || pass.length < 6) {
+                passError.style.display = 'block';
+                valid = false;
+            }
+            if (!valid) return;
+
+            const user = { name, email, id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6) };
+
+            if (isLoginMode) {
+                const stored = JSON.parse(localStorage.getItem('lsUsers') || '[]');
+                const found = stored.find(u => u.email === email && u.pass === pass);
+                if (found) {
+                    currentUser = found;
+                    localStorage.setItem('lsUser', JSON.stringify(currentUser));
+                    updateUserUI();
+                    closeModal('authModal');
+                    showToast(t('toast.login_success'), 'success');
+                } else {
+                    emailError.textContent = 'User not found or wrong password';
+                    emailError.style.display = 'block';
+                }
+            } else {
+                const stored = JSON.parse(localStorage.getItem('lsUsers') || '[]');
+                if (stored.find(u => u.email === email)) {
+                    emailError.textContent = 'Email already registered';
+                    emailError.style.display = 'block';
+                    return;
+                }
+                const newUser = { ...user, pass, name };
+                stored.push(newUser);
+                localStorage.setItem('lsUsers', JSON.stringify(stored));
+                currentUser = newUser;
+                localStorage.setItem('lsUser', JSON.stringify(currentUser));
+                updateUserUI();
+                authSuccess.style.display = 'block';
+                setTimeout(() => {
+                    closeModal('authModal');
+                    showToast(t('toast.register_success'), 'success');
+                }, 1200);
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('lsUser');
+            updateUserUI();
+            showToast(t('toast.logout'), 'info');
+        }
+
+        function updateUserUI() {
+            const authBtns = document.getElementById('authBtns');
+            const userMenu = document.getElementById('userMenu');
+            if (currentUser) {
+                authBtns.style.display = 'none';
+                userMenu.classList.add('show');
+                document.getElementById('userName').textContent = currentUser.name || currentUser.email.split('@')[0];
+                document.getElementById('userAvatar').textContent = (currentUser.name || currentUser.email)[0].toUpperCase();
+            } else {
+                authBtns.style.display = 'flex';
+                userMenu.classList.remove('show');
+            }
+        }
+
+        // ========================================================
+        // DROPFILE API
+        // ========================================================
+        const DROPFILE_BASE = 'https://dropfile.cc';
+
+        async function searchAnime(query, page = 1) {
+            try {
+                const url = `${DROPFILE_BASE}/api/anime/search?q=${encodeURIComponent(query)}&page=${page}`;
+                const res = await fetch(url);
+                if (!res.ok) throw new Error('Search failed');
+                const data = await res.json();
+                return data.results || data.data || [];
+            } catch (e) {
+                console.error('Search error:', e);
+                return [];
+            }
+        }
+
+        async function fetchTrending(page = 1) {
+            try {
+                const url = `${DROPFILE_BASE}/api/anime/ranking?type=airing&page=${page}`;
+                const res = await fetch(url);
+                if (!res.ok) throw new Error('Trending fetch failed');
+                const data = await res.json();
+                return data.results || data.data || [];
+            } catch (e) {
+                console.error('Trending error:', e);
+                return [];
+            }
+        }
+
+        async function fetchAnimeByGenre(genreId, page = 1) {
+            const query = genreId === '1' ? 'action' : genreId === '22' ? 'romance' : 'anime';
+            return searchAnime(query, page);
+        }
+
+        async function getAnimeStream(animeId, season = 1, episode = 1, type = 'tv', audio = 'sub', lang = 'en') {
+            try {
+                const url = `${DROPFILE_BASE}/api/anime/embed/${type}/${animeId}/${season}/${episode}?audio=${audio}&lang=${lang}`;
+                const res = await fetch(url);
+                if (!res.ok) throw new Error('Stream fetch failed');
+                return await res.json();
+            } catch (e) {
+                console.error('Stream error:', e);
+                return null;
+            }
+        }
+
+        // ========================================================
+        // LOAD ANIME DATA
+        // ========================================================
+        async function loadAnime(genre = 'all', page = 1) {
+            const grid = document.getElementById('animeGrid');
+            const loading = document.getElementById('loadingIndicator');
+            const pagination = document.getElementById('pagination');
+
+            loading.style.display = 'flex';
+            grid.innerHTML = '';
+            pagination.innerHTML = '';
+
+            try {
+                let results = [];
+                if (genre === 'all') {
+                    results = await fetchTrending(page);
+                } else {
+                    results = await fetchAnimeByGenre(genre, page);
+                }
+
+                if (!results || results.length === 0) {
+                    // Fallback: search general
+                    results = await searchAnime('anime', page);
+                }
+
+                animes = results.slice(0, 20);
+                currentGenre = genre;
+                currentPage = page;
+
+                loading.style.display = 'none';
+
+                if (animes.length === 0) {
+                    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:#888;font-size:14px;"><i class="fas fa-frown" style="font-size:40px;display:block;margin-bottom:12px;color:#e62429;"></i>No anime found. Try a different search.</div>`;
+                    return;
+                }
+
+                renderAnimeGrid(animes);
+                renderPagination(page, results.totalPages || Math.ceil((results.total || 50) / itemsPerPage));
+            } catch (e) {
+                loading.style.display = 'none';
+                grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:#888;"><i class="fas fa-wifi-slash" style="font-size:40px;display:block;margin-bottom:12px;color:#e62429;"></i>Could not load anime. Please try again later.</div>`;
+                console.error(e);
+            }
+        }
+
+        function renderAnimeGrid(list) {
+            const grid = document.getElementById('animeGrid');
+            grid.innerHTML = list.map(a => {
+                const title = a.title || a.name || 'Unknown';
+                const img = a.image || a.images?.jpg?.image_url || a.poster || 'https://via.placeholder.com/270x360/1a1a22/555?text=No+Image';
+                const rating = a.score || a.rating || '?';
+                const eps = a.episodes || a.episodeCount || '?';
+                const genre = a.genres?.[0]?.name || a.genre || '';
+                const id = a.mal_id || a.id || (a.ids?.mal ? 'mal-' + a.ids.mal : '');
+                const tagClass = genre.toLowerCase().includes('action') || genre.toLowerCase().includes('ecchi') ? 'tag-action' : genre.toLowerCase().includes('romance') ? 'tag-romance' : 'tag-action';
+
+                return `<div class="anime-card" onclick="openAnime('${id}','${encodeURIComponent(title)}','${encodeURIComponent(img)}','${encodeURIComponent(genre)}','${rating}','${eps}','${encodeURIComponent(a.synopsis || a.description || 'No description available.')}')">
+                    <img class="anime-card-img" src="${img}" alt="${title}" loading="lazy" onerror="this.src='https://via.placeholder.com/270x360/1a1a22/555?text=Error'" />
+                    ${genre ? `<span class="anime-card-tag ${tagClass}">${genre}</span>` : ''}
+                    <div class="anime-card-play"><i class="fas fa-play"></i></div>
+                    <div class="anime-card-body">
+                        <h3>${title}</h3>
+                        <div class="anime-card-meta">
+                            <span class="rating"><i class="fas fa-star"></i> ${rating}</span>
+                            <span class="eps">${eps} eps</span>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function renderPagination(page, totalPages) {
+            const pag = document.getElementById('pagination');
+            totalPages = Math.min(totalPages || 10, 10);
+            pag.innerHTML = `<button class="page-btn" onclick="loadAnime('${currentGenre}',${Math.max(1,page-1)})" ${page<=1?'disabled':''}><i class="fas fa-chevron-left"></i></button>`;
+            for (let i = 1; i <= totalPages; i++) {
+                pag.innerHTML += `<button class="page-btn ${i===page?'active':''}" onclick="loadAnime('${currentGenre}',${i})">${i}</button>`;
+            }
+            pag.innerHTML += `<button class="page-btn" onclick="loadAnime('${currentGenre}',${Math.min(totalPages,page+1)})" ${page>=totalPages?'disabled':''}><i class="fas fa-chevron-right"></i></button>`;
+        }
+
+        // ========================================================
+        // OPEN ANIME (MODAL)
+        // ========================================================
+        let currentAnimeData = null;
+
+        async function openAnime(id, title, img, genre, rating, eps, desc) {
+            title = decodeURIComponent(title);
+            img = decodeURIComponent(img);
+            genre = decodeURIComponent(genre);
+            desc = decodeURIComponent(desc);
+
+            currentAnime = { id, title, img, genre, rating, eps, desc };
+            currentAnimeData = null;
+
+            document.getElementById('modalTitle').innerHTML = `<i class="fas fa-play" style="color:#e62429;margin-right:6px;"></i> ${title}`;
+            document.getElementById('animeInfoTitle').textContent = title;
+            document.getElementById('animeMeta').innerHTML = `
+                <span><i class="fas fa-star"></i> ${rating}</span>
+                <span><i class="fas fa-layer-group"></i> ${eps} ${t('player.episodes')}</span>
+                ${genre ? `<span><i class="fas fa-tag"></i> ${genre}</span>` : ''}
+            `;
+            document.getElementById('animeDesc').textContent = desc;
+
+            // Reset player
+            document.getElementById('videoIframe').style.display = 'none';
+            document.getElementById('videoIframe').src = '';
+            document.getElementById('videoPlaceholder').style.display = 'flex';
+            document.getElementById('videoPlaceholder').innerHTML = `<i class="fas fa-spinner fa-pulse" style="font-size:36px;color:#e62429;"></i><p style="margin-top:12px;">${t('loading.more')}</p>`;
+
+            openModal('videoModal');
+
+            // Try to fetch stream info to get episodes count
+            try {
+                let animeId = id;
+                let type = 'tv';
+
+                if (id && !id.toString().startsWith('mal-') && !isNaN(Number(id))) {
+                    animeId = 'mal-' + id;
+                }
+
+                const streamData = await getAnimeStream(animeId, 1, 1, type, 'sub', currentLang);
+                if (streamData && streamData.anime) {
+                    currentAnimeData = streamData;
+                    const totalEps = streamData.anime.episodes || parseInt(eps) || 12;
+
+                    let episodeHTML = '';
+                    for (let i = 1; i <= Math.min(totalEps, 50); i++) {
+                        episodeHTML += `<button class="episode-btn" onclick="playEpisode(${i})" data-ep="${i}">${t('player.episode')} ${i}</button>`;
+                    }
+                    document.getElementById('episodeList').innerHTML = episodeHTML;
+                    document.getElementById('videoPlaceholder').innerHTML = `<i class="fas fa-play-circle"></i><p>${t('player.clickepisode')}</p>`;
+                } else {
+                    // Generate fake episodes
+                    const totalEps = parseInt(eps) || 12;
+                    let episodeHTML = '';
+                    for (let i = 1; i <= Math.min(totalEps, 50); i++) {
+                        episodeHTML += `<button class="episode-btn" onclick="playEpisode(${i})" data-ep="${i}">${t('player.episode')} ${i}</button>`;
+                    }
+                    document.getElementById('episodeList').innerHTML = episodeHTML;
+                    document.getElementById('videoPlaceholder').innerHTML = `<i class="fas fa-play-circle"></i><p>${t('player.clickepisode')}</p>`;
+                }
+            } catch (e) {
+                const totalEps = parseInt(eps) || 12;
+                let episodeHTML = '';
+                for (let i = 1; i <= Math.min(totalEps, 50); i++) {
+                    episodeHTML += `<button class="episode-btn" onclick="playEpisode(${i})" data-ep="${i}">${t('player.episode')} ${i}</button>`;
+                }
+                document.getElementById('episodeList').innerHTML = episodeHTML;
+                document.getElementById('videoPlaceholder').innerHTML = `<i class="fas fa-play-circle"></i><p>${t('player.clickepisode')}</p>`;
+            }
+        }
+
+        async function playEpisode(ep) {
+            const container = document.getElementById('videoContainer');
+            const placeholder = document.getElementById('videoPlaceholder');
+            const iframe = document.getElementById('videoIframe');
+
+            placeholder.style.display = 'flex';
+            placeholder.innerHTML = `<i class="fas fa-spinner fa-pulse" style="font-size:36px;color:#e62429;"></i><p style="margin-top:12px;">Loading Episode ${ep}...</p>`;
+            iframe.style.display = 'none';
+            iframe.src = '';
+
+            // Highlight active episode
+            document.querySelectorAll('.episode-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector(`.episode-btn[data-ep="${ep}"]`)?.classList.add('active');
+
+            let animeId = currentAnime?.id || 'mal-21';
+            let type = 'tv';
+
+            if (animeId && !animeId.toString().startsWith('mal-') && !isNaN(Number(animeId))) {
+                animeId = 'mal-' + animeId;
+            }
+
+            // Build DropFile player URL
+            const audioMode = 'sub';
+            const lang = currentLang === 'ar' ? 'en' : currentLang === 'ru' ? 'en' : currentLang;
+
+            // Try JSON API first
+            try {
+                const streamData = await getAnimeStream(animeId, 1, ep, type, audioMode, lang);
+                if (streamData && streamData.stream && streamData.stream.embed_url) {
+                    iframe.src = streamData.stream.embed_url;
+                    iframe.style.display = 'block';
+                    placeholder.style.display = 'none';
+                    return;
+                }
+                if (streamData && streamData.embed && streamData.embed.direct_src) {
+                    iframe.src = streamData.embed.direct_src;
+                    iframe.style.display = 'block';
+                    placeholder.style.display = 'none';
+                    return;
+                }
+            } catch (e) {}
+
+            // Fallback: use direct player URL
+            const playerUrl = `${DROPFILE_BASE}/player/${type}/${animeId}/1/${ep}?audio=${audioMode}&lang=${lang}`;
+            iframe.src = playerUrl;
+            iframe.style.display = 'block';
+            placeholder.style.display = 'none';
+        }
+
+        // ========================================================
+        // SEARCH
+        // ========================================================
+        let searchTimeout = null;
+        document.getElementById('searchInput').addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            const q = this.value.trim();
+            searchTimeout = setTimeout(async () => {
+                if (q.length < 2) {
+                    loadAnime(currentGenre, 1);
+                    return;
+                }
+                const grid = document.getElementById('animeGrid');
+                const loading = document.getElementById('loadingIndicator');
+                loading.style.display = 'flex';
+                grid.innerHTML = '';
+                document.getElementById('pagination').innerHTML = '';
+
+                const results = await searchAnime(q);
+                animes = results.slice(0, 20);
+                loading.style.display = 'none';
+                if (animes.length === 0) {
+                    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:#888;font-size:14px;"><i class="fas fa-search" style="font-size:40px;display:block;margin-bottom:12px;color:#e62429;"></i>No results for "${q}"</div>`;
+                    return;
+                }
+                renderAnimeGrid(animes);
+                document.getElementById('pagination').innerHTML = '';
+            }, 500);
+        });
+
+        // ========================================================
+        // GENRE FILTER
+        // ========================================================
+        document.querySelectorAll('.genre-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.genre-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const genre = this.dataset.genre;
+                loadAnime(genre, 1);
+            });
+        });
+
+        // ========================================================
+        // INIT
+        // ========================================================
+        async function init() {
+            // Load saved lang
+            const savedLang = localStorage.getItem('lsLang') || 'en';
+            currentLang = savedLang;
+            applyTranslations();
+            updateUserUI();
+
+            // Load anime
+            await loadAnime('all', 1);
+
+            // Header scroll effect
+            window.addEventListener('scroll', () => {
+                document.getElementById('header').classList.toggle('scrolled', window.scrollY > 40);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
